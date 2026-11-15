@@ -9,6 +9,7 @@ class Song  {
 
     constructor(hymnNo: number);
     constructor(hymnNo: number, variant: string);
+    constructor(hymnNo: number, variant: string, verse: number);
     constructor(hymnNo: number, variant: string, verse: number, focus: boolean);
 
     /**

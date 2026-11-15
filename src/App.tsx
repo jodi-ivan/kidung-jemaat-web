@@ -1,13 +1,27 @@
 import { useState } from 'react'
-import { Search, ArrowLeft, SquareArrowRightEnter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ChevronRight } from 'lucide-react';
 import { SvgViewer } from './SvgViewerMetadata'
 import './App.css'
 import {Navigator} from './component/navigator'
+import {VerseSelector} from './component/verse_selector'
 import Song from './entity/entity'
 
-function App() {
-  const [currentSong, setCurrentSong] = useState<Song>(new Song(1));
 
+function App() {
+  const [currentSong, setCurrentSong] = useState<Song>(new Song(1, '', 1));
+  const [totalVerse, setTotalVerse] = useState<number>(2);
+
+  const updateTotalVerse = (newTotalVerse: number) => {
+    console.log("total verse", newTotalVerse)
+    setTotalVerse(newTotalVerse);
+  }
+
+  const updateSelectedVerse = (verse:number) => {
+    // let song: Song = new Song(currentSong.hymnNo, currentSong.variant, verse)
+    let newState = {...currentSong, verse: verse}
+    console.log(newState);
+    setCurrentSong(newState);
+  } 
   return (
     <>
       <div style={{ display: "block", width: "100%" }}>
@@ -33,8 +47,12 @@ function App() {
               <span>Title</span>
             </div>
             <div className='controls'></div>
-            <div style={{marginTop:"32px"}}> 
-              <SvgViewer url={`http://localhost:8888/kidung-jemaat/render/${currentSong.hymnNo}`} key={`key-${currentSong.hymnNo}`} onMetadataLoaded={console.log} />
+            <div style={{marginTop:"32px", position: "relative"}}> 
+              <VerseSelector totalVerse={totalVerse} key={`verse-${currentSong.hymnNo}`} onChange={(a) => updateSelectedVerse(a)}/>
+              <SvgViewer 
+                url={`http://localhost:8888/kidung-jemaat/render/${currentSong.hymnNo}${currentSong.verse > 1 ? `?verse=${currentSong.verse}` : ''}`} 
+                key={`key-${currentSong.hymnNo}`} 
+                onMetadataLoaded={(metadata) => updateTotalVerse(Number(metadata.total_verse)) } />
 
             </div>
           </div>

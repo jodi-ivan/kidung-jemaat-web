@@ -2,6 +2,83 @@
   /* border: 1px dashed red; */
 }
 
+/* selector is ul */
+.selector { 
+  margin-top: -16px;
+  z-index: 5;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  gap: 8px;
+  max-width: 160px;
+  padding-left: 8px;
+  padding-bottom: 8px;
+}
+
+.selector > li {
+  display: inline-flex;
+  border: 1px solid #687270;
+  justify-content: center;
+  font-size: 0.85em;
+  flex-shrink: 0;
+  width: 4px;
+  height: 4px;
+  padding: 12px;
+  border-radius: 50%;
+  color: #333333;
+  align-items: center;
+  cursor: pointer;       /* Shows hand icon on hover */
+  user-select: none;     /* Prevents accidental text highlighting */
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.selector > li.selected {
+  font-weight: 600;
+  background-color: #347A70CC;
+  border: 1.2px solid #347A70;
+  color: #273331;
+}
+
+/* Hover state */
+.selector li:hover,
+.selector li:focus-visible {
+  background-color: #E3EFEC;
+  outline: 2px solid #E3EFEC;
+  outline-offset: 2px;
+}
+
+/* Click (pressed) simulation */
+.selector li:active {
+  background-color: #347A70;
+  transform: translateY(1px); /* Pushes button down slightly */
+}
+
+/* Standard CSS (Chrome, Edge, Firefox, Safari) */
+.scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+/* Fallback for older WebKit browsers */
+.scroll-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+}
+
+
+.search > * {
+  min-height: 32px;
+}
+
 .global-search {
   padding: 5px;
   display: inline-block;
