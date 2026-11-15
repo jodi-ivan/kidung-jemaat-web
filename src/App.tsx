@@ -2,8 +2,11 @@ import { useState } from 'react'
 import { Search, ArrowLeft, SquareArrowRightEnter, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SvgViewer } from './SvgViewerMetadata'
 import './App.css'
+import {Navigator} from './component/navigator'
+import Song from './entity/entity'
 
 function App() {
+  const [currentSong, setCurrentSong] = useState<Song>(new Song(1));
 
   return (
     <>
@@ -16,30 +19,7 @@ function App() {
                 <Search className='search-btn' size="1em" />
               </button>
             </div>
-            <div className="navigator">
-              <div style={{ display: "flex", marginTop:"16px", marginBottom:"16px" }} > 
-                <ChevronLeft style={{ width: "10%", flexShrink: 0, marginLeft:"8px" }}/>
-                <input type="number" name="hymn" id="" style={{ flex: 1, minWidth:0 }} />
-                <ChevronRight style={{ width: "10%", flexShrink: 0, marginRight:"8px" }}/>
-              </div>
-              <div className='dialpad'> 
-                <div className='botton' style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "5px" }}>
-                  <button style={{ flex: 1, minHeight: '40px' }}>1</button>
-                  <button style={{ flex: 1, minHeight: '40px' }}>2</button>
-                  <button style={{ flex: 1, minHeight: '40px' }}>3</button>
-                  <button style={{ flex: 1, minHeight: '40px' }}>4</button>
-                  <button style={{ flex: 1, minHeight: '40px' }}>5</button>
-                  <button style={{ flex: 1, minHeight: '40px' }}>6</button>
-                  <button style={{ flex: 1, minHeight: '40px' }}>7</button>
-                  <button style={{ flex: 1, minHeight: '40px' }}>8</button>
-                  <button style={{ flex: 1, minHeight: '40px' }}>9</button>
-                  <button style={{ flex: 1, minHeight: '40px' }}><ArrowLeft size={18} /></button>
-                  <button style={{ flex: 1, minHeight: '40px' }}>0</button>
-                  <button style={{ flex: 1, minHeight: '40px' }}><SquareArrowRightEnter size={18} /></button>
-                </div>
-
-              </div>
-            </div>
+            <Navigator onChange={setCurrentSong}/>
           </div>
           <div style={{ flex: 1 }}>
             <div style={{display:"block", textAlign:"left"}}>
@@ -54,7 +34,7 @@ function App() {
             </div>
             <div className='controls'></div>
             <div style={{marginTop:"32px"}}> 
-              <SvgViewer url="http://localhost:8888/kidung-jemaat/render/1" onMetadataLoaded={(a)=>{console.log(a)}} />
+              <SvgViewer url={`http://localhost:8888/kidung-jemaat/render/${currentSong.hymnNo}`} key={`key-${currentSong.hymnNo}`} onMetadataLoaded={console.log} />
 
             </div>
           </div>
