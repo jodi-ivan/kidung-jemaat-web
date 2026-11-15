@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Search, Music, ArrowLeft, SquareArrowRightEnter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ArrowLeft, SquareArrowRightEnter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { SvgViewer } from './SvgViewerMetadata'
 import './App.css'
 
 function App() {
@@ -7,7 +8,6 @@ function App() {
   return (
     <>
       <div style={{ display: "block", width: "100%" }}>
-
         <div style={{ display: "flex", gap: "16px", padding: "10px"}}>
           <div style={{ width: "20%", padding:"2px", flexShrink: 0, borderRight: "1px solid #D6DAD6" }}>
             <div className="search" style={{ display: "flex", alignItems: "center" }}>
@@ -53,8 +53,9 @@ function App() {
               <span>Title</span>
             </div>
             <div className='controls'></div>
-            <div style={{marginTop:"32px"}}>
-              <object id="svg-display" type="image/svg+xml" data="http://localhost:8888/kidung-jemaat/render/1"></object>
+            <div style={{marginTop:"32px"}}> 
+              <SvgViewer url="http://localhost:8888/kidung-jemaat/render/1" onMetadataLoaded={(a)=>{console.log(a)}} />
+
             </div>
           </div>
         </div>
