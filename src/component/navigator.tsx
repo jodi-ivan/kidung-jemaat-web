@@ -11,24 +11,15 @@ interface NavigatorProps {
 }
 
 
-export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, selected }) => {
+export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, selected = "a"}) => {
     const [hymnNumber, setHymnNumber] = useState<string>('1');
-    const [localSelected, setLocalSelected] = useState(selected);
-
+    const [localSelected, setLocalSelected] = useState("a");
+    // Sync internal state if the prop changes (e.g., parent updates selection)
     useEffect(() => {
-        let no: number = parseInt(hymnNumber)
-        if (onChange) {
-            onChange(new Song(no, localSelected ? localSelected : ''));
+        if (selected !== undefined && !onChange) {
+            setLocalSelected(selected);
         }
-    }, [localSelected]);
-
-      // Sync internal state if the prop changes (e.g., parent updates selection)
-        useEffect(() => {
-            if (selected !== undefined && !onChange) {
-                setLocalSelected(selected);
-            }
-        }, [selected, onChange]);
-    
+    }, [selected, onChange]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setHymnNumber(e.target.value);
@@ -65,6 +56,7 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, sel
         }
     }, [hymnNumber])
 
+
     return (
         <div className="navigator">
             <div style={{ display: "flex", marginTop: "16px", marginBottom: "16px", gap: "8px", minHeight: "32px" }} >
@@ -84,7 +76,7 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, sel
             </div >
             {
                 all_variant && (
-                    <div style={{ justifyItems: "center", marginTop: "28px" }}>
+                    <div style={{ justifyItems: "center", marginTop: "28px" }} key={`variant-${hymnNumber}`}>
                         <ul className='selector variant'>
                             {all_variant.map((variant) => (
                                 <li
@@ -92,6 +84,10 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, sel
                                     className={localSelected === variant ? 'selected' : ''}
                                     onClick={() => {
                                         setLocalSelected(variant);
+                                        if (onChange) {
+                                             let no: number = parseInt(hymnNumber)
+                                            onChange(new Song(no, variant));
+                                        }
                                     }}
                                 >
                                     {variant}
