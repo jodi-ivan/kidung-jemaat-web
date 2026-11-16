@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react'
+import Metadata from './entity/metadata';
 
 interface SvgViewerProps {
   url: string;
-  onMetadataLoaded?: (meta: Record<string, any>) => void;
+  onMetadataLoaded?: (meta: Metadata) => void;
 }
 
 export const SvgViewer: React.FC<SvgViewerProps> = ({ url, onMetadataLoaded }) => {
@@ -21,15 +22,14 @@ export const SvgViewer: React.FC<SvgViewerProps> = ({ url, onMetadataLoaded }) =
         const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
         if (doc.querySelector('parsererror')) throw new Error('Invalid SVG');
 
-        const version = doc.documentElement.getAttribute('data-version');
         const metaText = doc.querySelector('metadata')?.textContent?.trim();
 
-        let parsedMeta = {};
+        let parsedMeta = {} as Metadata;
         if (metaText) {
           try { parsedMeta = JSON.parse(metaText); } catch { console.warn('Invalid metadata JSON'); }
         }
 
-        callbackRef.current?.({ version, ...parsedMeta });
+        callbackRef.current?.({...parsedMeta });
       })
       .catch((e) => {
         if (e.name !== 'AbortError') console.error(e);

@@ -15,6 +15,10 @@
   padding-bottom: 8px;
 }
 
+.selector.variant > li {
+  background: #E3EFEC;
+}
+
 .selector > li {
   display: inline-flex;
   border: 1px solid #687270;
@@ -34,7 +38,7 @@
 
 .selector > li.selected {
   font-weight: 600;
-  background-color: #347A70CC;
+  background-color: #347A70CC !important;
   border: 1.2px solid #347A70;
   color: #273331;
 }

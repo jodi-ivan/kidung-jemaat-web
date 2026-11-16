@@ -24,5 +24,9 @@ class Song  {
         this.gregorian = gregorian; 
     }
 
+    getURL(): string {
+        return `${this.hymnNo}${this.variant}${this.verse > 1 ? `?verse=${this.verse}` : ''}`
+    }
+
 }
 export default Song 

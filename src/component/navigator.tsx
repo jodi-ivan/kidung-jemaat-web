@@ -6,11 +6,29 @@ import { ArrowLeft, SquareArrowRightEnter, ChevronLeft, ChevronRight } from 'luc
 
 interface NavigatorProps {
     onChange?: (changed: Song) => void;
+    all_variant?: string[];
+    selected?: string;
 }
 
 
-export const Navigator: React.FC<NavigatorProps> = ({ onChange }) => {
+export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, selected }) => {
     const [hymnNumber, setHymnNumber] = useState<string>('1');
+    const [localSelected, setLocalSelected] = useState(selected);
+
+    useEffect(() => {
+        let no: number = parseInt(hymnNumber)
+        if (onChange) {
+            onChange(new Song(no, localSelected ? localSelected : ''));
+        }
+    }, [localSelected]);
+
+      // Sync internal state if the prop changes (e.g., parent updates selection)
+        useEffect(() => {
+            if (selected !== undefined && !onChange) {
+                setLocalSelected(selected);
+            }
+        }, [selected, onChange]);
+    
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setHymnNumber(e.target.value);
@@ -44,20 +62,18 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange }) => {
         if (onChange) {
             let no: number = parseInt(hymnNumber)
             onChange(new Song(no));
-
         }
-    })
+    }, [hymnNumber])
 
     return (
         <div className="navigator">
-            <div style={{ display: "flex", marginTop: "16px", marginBottom: "16px", gap:"8px", minHeight:"32px" }} >
+            <div style={{ display: "flex", marginTop: "16px", marginBottom: "16px", gap: "8px", minHeight: "32px" }} >
                 <button onClick={() => handleInputChangeFromButton(-1)} style={{ background: "tranparent", flexShrink: 0, marginLeft: "8px" }}>
                     <ChevronLeft size={12} />
                 </button>
                 <input
                     type="number"
                     name="hymn"
-                    id=""
                     style={{ flex: 1, minWidth: 0 }}
                     value={hymnNumber}
                     onChange={handleInputChange}
@@ -66,6 +82,25 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange }) => {
                     <ChevronRight size={12} />
                 </button>
             </div >
+            {
+                all_variant && (
+                    <div style={{ justifyItems: "center", marginTop: "28px" }}>
+                        <ul className='selector variant'>
+                            {all_variant.map((variant) => (
+                                <li
+                                    key={variant}
+                                    className={localSelected === variant ? 'selected' : ''}
+                                    onClick={() => {
+                                        setLocalSelected(variant);
+                                    }}
+                                >
+                                    {variant}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )
+            }
             <div className='dialpad'>
                 <div className='botton' style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "5px" }}>
                     <button onClick={() => handleDigitClick('1')} style={{ flex: 1, minHeight: '40px' }}>1</button>

@@ -5,20 +5,23 @@ import './App.css'
 import {Navigator} from './component/navigator'
 import {VerseSelector} from './component/verse_selector'
 import Song from './entity/entity'
+import Metadata from './entity/metadata';
+
 
 
 function App() {
   const [currentSong, setCurrentSong] = useState<Song>(new Song(1, '', 1));
   const [totalVerse, setTotalVerse] = useState<number>(2);
+  const [metadata, setMetadata] = useState<Metadata>(new Metadata(1, []));
+
 
   const updateTotalVerse = (newTotalVerse: number) => {
-    console.log("total verse", newTotalVerse)
     setTotalVerse(newTotalVerse);
   }
 
-  const updateSelectedVerse = (verse:number) => {
-    // let song: Song = new Song(currentSong.hymnNo, currentSong.variant, verse)
-    let newState = {...currentSong, verse: verse}
+  const updateSelectedVerse = (verse: number) => {
+    const { hymnNo, variant, focus} = currentSong;
+    const newState = new Song(hymnNo, variant, verse, focus);
     console.log(newState);
     setCurrentSong(newState);
   } 
@@ -33,7 +36,7 @@ function App() {
                 <Search className='search-btn' size="1em" />
               </button>
             </div>
-            <Navigator onChange={setCurrentSong}/>
+            <Navigator onChange={setCurrentSong} all_variant={metadata.all_variants} selected={metadata.selected_variant}/>
           </div>
           <div style={{ flex: 1 }}>
             <div style={{display:"block", textAlign:"left"}}>
@@ -50,9 +53,12 @@ function App() {
             <div style={{marginTop:"32px", position: "relative"}}> 
               <VerseSelector totalVerse={totalVerse} key={`verse-${currentSong.hymnNo}`} onChange={(a) => updateSelectedVerse(a)}/>
               <SvgViewer 
-                url={`http://localhost:8888/kidung-jemaat/render/${currentSong.hymnNo}${currentSong.verse > 1 ? `?verse=${currentSong.verse}` : ''}`} 
+                url={`http://localhost:8888/kidung-jemaat/render/${currentSong.getURL()}`} 
                 key={`key-${currentSong.hymnNo}`} 
-                onMetadataLoaded={(metadata) => updateTotalVerse(Number(metadata.total_verse)) } />
+                onMetadataLoaded={(metadata) => {
+                  updateTotalVerse(Number(metadata.total_verse));
+                  setMetadata(metadata);
+                } } />
 
             </div>
           </div>
