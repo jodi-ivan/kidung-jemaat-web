@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { Search, ChevronRight } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { SvgViewer } from './SvgViewerMetadata'
 import './App.css'
 import {Navigator} from './component/navigator'
 import {VerseSelector} from './component/verse_selector'
 import Song from './entity/entity'
 import Metadata from './entity/metadata';
-
+import { Breadcrumb } from './component/breadcrumb';
 
 
 function App() {
@@ -39,16 +39,7 @@ function App() {
             <Navigator onChange={setCurrentSong} all_variant={metadata.all_variants} selected={metadata.selected_variant}/>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{display:"block", textAlign:"left"}}>
-              <span>Layer 1</span>
-              <span>
-                <ChevronRight size={14} />
-              </span>
-              <span>Layer 2</span>
-                <ChevronRight size={14} />
-
-              <span>Title</span>
-            </div>
+            <Breadcrumb metadata={metadata} />
             <div className='controls'></div>
             <div style={{marginTop:"32px", position: "relative"}}> 
               <VerseSelector totalVerse={totalVerse} key={`verse-${currentSong.hymnNo}`} onChange={(a) => updateSelectedVerse(a)}/>

@@ -19,6 +19,10 @@
   background: #E3EFEC;
 }
 
+.hoverable:hover {
+  color: #347A70;
+}
+
 .selector > li {
   display: inline-flex;
   border: 1px solid #687270;
