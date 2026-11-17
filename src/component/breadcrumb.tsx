@@ -23,13 +23,13 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ metadata: { loc } }) => 
         <div style={{ display: "block", textAlign: "left" }}>
             <span style={{ fontSize: "13px", color: "#687270" }}>{loc.L1}</span>
             <span>
-                <ChevronRight size={13} />
+                <ChevronRight style={{color:"#B7BFBC"}} size={13} />
             </span>
             {
                 loc.L2 && (
                     <>
                         <span style={{ fontSize: "13px", color: "#687270" }}>{loc.L2}</span>
-                        <ChevronRight size={14} />
+                        <ChevronRight style={{color:"#B7BFBC"}} size={14} />
                     </>
                 )
 

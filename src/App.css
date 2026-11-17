@@ -47,6 +47,77 @@
   color: #273331;
 }
 
+.dialog {
+  text-align: left;
+  /* left: -32px; */
+  position: absolute;
+  background-color: #FAFAF7;
+  width: 480px;
+  z-index: 5;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  border: 1px solid #347A70;
+  color: #273331;
+  font-size: 14px;
+
+}
+
+.highlight {
+  color: #347A70;
+  font-weight: bolder;
+}
+
+.dialog > div {
+  padding: 8px;
+
+}
+
+.dialog li {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  list-style-type: none;
+  margin-left: -24px;
+
+}
+
+.dialog li:not(:has(ul, ol)) {
+  border-bottom: 1px solid #D6DAD6;
+  
+}
+
+.dialog li:hover:not(:has(ul, ol)) {
+  background: #E3EFEC;
+}
+.dialog ul {
+  margin: 0;
+}
+
+.hymn-no, .see-more{
+  color: #687270;
+  font-size: 13px;
+}
+
+.see-more {
+  text-align: center;
+  margin-bottom: 8px;
+  border-bottom: none;
+}
+
+.bottom-section .hymn-title:not(.snippet) {
+  font-weight: 600;
+}
+
+.hymn-title {
+  color: #273331;
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
 /* Hover state */
 .selector li:hover,
 .selector li:focus-visible {
