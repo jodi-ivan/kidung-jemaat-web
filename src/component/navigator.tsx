@@ -8,19 +8,27 @@ interface NavigatorProps {
     onChange?: (changed: Song) => void;
     all_variant?: string[];
     selected?: string;
+    song?: Song;
 }
 
 
-export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, selected = "a"}) => {
-    const [hymnNumber, setHymnNumber] = useState<string>('1');
-    const [localSelected, setLocalSelected] = useState("a");
+export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, selected, song}) => {
+    let defaultHymn: string = (song) ? String(song.hymnNo) : '1'; 
+    const [hymnNumber, setHymnNumber] = useState<string>(defaultHymn); 
+    const [localSelected, setLocalSelected] = useState(selected);
     // Sync internal state if the prop changes (e.g., parent updates selection)
     useEffect(() => {
-        if (selected !== undefined && !onChange) {
+        if (selected) {
             setLocalSelected(selected);
         }
-    }, [selected, onChange]);
+    }, [selected]);
 
+
+    useEffect(() => {
+        if (song) {
+            setHymnNumber(String(song.hymnNo));
+        }
+    }, [song])
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setHymnNumber(e.target.value);
     };
@@ -54,7 +62,7 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, sel
             let no: number = parseInt(hymnNumber)
             onChange(new Song(no));
         }
-    }, [hymnNumber])
+    }, [hymnNumber, onChange])
 
 
     return (
@@ -74,9 +82,10 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, sel
                     <ChevronRight size={12} />
                 </button>
             </div >
+            <div key={`variant-${hymnNumber}`}>
             {
                 all_variant && (
-                    <div style={{ justifyItems: "center", marginTop: "28px" }} key={`variant-${hymnNumber}`}>
+                    <div style={{ justifyItems: "center", marginTop: "28px" }}>
                         <ul className='selector variant'>
                             {all_variant.map((variant) => (
                                 <li
@@ -97,6 +106,8 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, sel
                     </div>
                 )
             }
+            </div>
+
             <div className='dialpad'>
                 <div className='botton' style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "5px" }}>
                     <button onClick={() => handleDigitClick('1')} style={{ flex: 1, minHeight: '40px' }}>1</button>

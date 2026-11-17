@@ -32,13 +32,13 @@ function App() {
         <div style={{ display: "flex", gap: "16px", padding: "10px" }}>
           <div style={{ width: "20%", padding: "2px", flexShrink: 0, borderRight: "1px solid #D6DAD6" }}>
             <Search onSelected={setCurrentSong}/>
-            <Navigator onChange={setCurrentSong} all_variant={metadata.all_variants} selected={metadata.selected_variant} />
+            <Navigator onChange={setCurrentSong} all_variant={metadata.all_variants} selected={metadata.selected_variant} song={currentSong} />
           </div>
           <div style={{ flex: 1 }}>
             <Breadcrumb metadata={metadata} />
             <div className='controls'></div>
             <div style={{ marginTop: "32px", position: "relative" }}>
-              <VerseSelector totalVerse={totalVerse} key={`verse-${currentSong.hymnNo}`} onChange={(a) => updateSelectedVerse(a)} />
+              <VerseSelector totalVerse={totalVerse} key={`verse-${currentSong.hymnNo}`} onChange={(a) => updateSelectedVerse(a)} selected={currentSong.verse}/>
               <SvgViewer
                 url={`http://localhost:8888/kidung-jemaat/render/${currentSong.getURL()}`}
                 key={`key-${currentSong.hymnNo}`}

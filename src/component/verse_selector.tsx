@@ -7,9 +7,9 @@ interface VerseSelectorProps {
 }
 
 
-export const VerseSelector: React.FC<VerseSelectorProps> = ({ totalVerse = 2, selected=1, onChange }) => {
+export const VerseSelector: React.FC<VerseSelectorProps> = ({ totalVerse = 2, selected, onChange }) => {
     // Use local state if onChange is not provided, otherwise rely on props
-    const [internalSelected, setInternalSelected] = useState(selected);
+    const [internalSelected, setInternalSelected] = useState((selected) ? selected : 1);
 
     // Sync internal state if the prop changes (e.g., parent updates selection)
     useEffect(() => {
