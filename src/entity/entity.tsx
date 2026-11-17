@@ -25,8 +25,17 @@ class Song  {
     }
 
     getURL(): string {
-        return `${this.hymnNo}${this.variant}${this.verse > 1 ? `?verse=${this.verse}` : ''}`
+        const params: string[] = [];
+        if (this.verse > 1) {
+            params.push(`verse=${this.verse}`);
+        }
+        if (this.focus) {
+            params.push(`focus=true`);
+        }
+
+        const queryString = params.length > 0 ? `?${params.join('&')}` : '';
+        return `${this.hymnNo}${this.variant}${queryString}`;
     }
 
 }
-export default Song 
+export default Song

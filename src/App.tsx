@@ -31,7 +31,7 @@ function App() {
       <div style={{ display: "block", width: "100%" }}>
         <div style={{ display: "flex", gap: "16px", padding: "10px" }}>
           <div style={{ width: "20%", padding: "2px", flexShrink: 0, borderRight: "1px solid #D6DAD6" }}>
-            <Search />
+            <Search onSelected={setCurrentSong}/>
             <Navigator onChange={setCurrentSong} all_variant={metadata.all_variants} selected={metadata.selected_variant} />
           </div>
           <div style={{ flex: 1 }}>

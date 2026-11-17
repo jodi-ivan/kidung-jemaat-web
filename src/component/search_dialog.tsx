@@ -35,9 +35,14 @@ function highlight(snippet: string, spans: Span[]): ReactElement {
 }
 
 export const SearchDialog: React.FC<DialogProps> = ({ onSelected, isOpen = false, onOpenChange, data }) => {
-    console.log(data);
     if (!(data && data.data)) {
         return null
+    }
+
+    const handleClick = (song :Song) => {
+        if (onSelected) {
+            onSelected(song)
+        }
     }
     return (
         <>
@@ -66,7 +71,7 @@ export const SearchDialog: React.FC<DialogProps> = ({ onSelected, isOpen = false
                                         {
                                             (data.data && data?.data.autocomplete.map((i, v) => {
                                                 return (
-                                                    <li key={`autocomplete-${v}`}>
+                                                    <li key={`autocomplete-${v}`} onClick={() => handleClick(new Song(i.hymnno, i.variant))}>
                                                         <span className='hymn-no'>{`${i.hymnno}${i.variant ? i.variant : ''}.`}</span>
                                                         <span className='hymn-title'>{highlight(i.title.snippet, i.title.spans)}</span>
                                                     </li>
@@ -95,7 +100,7 @@ export const SearchDialog: React.FC<DialogProps> = ({ onSelected, isOpen = false
                                                             {
                                                                 Object.entries(i.verse).splice(0, 3).map(([key, element]) => {
                                                                     return (
-                                                                        <li key={`search-verse-${key}`}>
+                                                                        <li key={`search-verse-${key}`} onClick={() => handleClick(new Song(i.hymnno, i.variant, parseInt(key)))}>
                                                                             <span className='hymn-no'>{`${key}.`}</span>
                                                                             <span className='hymn-title snippet'>{highlight(element.snippet, element.spans)}</span>
                                                                         </li>
@@ -104,7 +109,7 @@ export const SearchDialog: React.FC<DialogProps> = ({ onSelected, isOpen = false
                                                             }
                                                             {
                                                                 Object.entries(i.verse).length > 3 && (
-                                                                    <li className='see-more'>{`${Object.entries(i.verse).length - 3}`}+ Lainnya</li>
+                                                                    <li className='see-more' onClick={() => handleClick(new Song(i.hymnno, i.variant))}>{`${Object.entries(i.verse).length - 3}`}+ Lainnya</li>
                                                                 )
                                                             }
                                                         </ul>
