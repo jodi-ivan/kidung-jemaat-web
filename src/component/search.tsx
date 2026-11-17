@@ -50,7 +50,9 @@ export const Search: React.FC<SearchProps> = ({ onSelected }) => {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                 />
-                 <IcnSearch className='search-btn' size="1em" />
+                <button>
+                    <IcnSearch className='search-btn' size={14} />
+                </button>
                 {/* <IcnSearch size={18} style={{padding: "2px"}}/> */}
             </div >
             <div style={{ position: "relative" }}>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Song from '../entity/entity'
-import { ArrowLeft, SquareArrowRightEnter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, SquareArrowRightEnter, ChevronsLeft, ChevronsRight } from 'lucide-react';
 
 // export Navigator 
 
@@ -57,29 +57,37 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, sel
         });
     };
 
+    const hasConsumedInitialSong = useRef(false);
     useEffect(() => {
+        if (!hymnNumber) {
+            setHymnNumber("1")
+            return
+        }
         if (onChange) {
             let no: number = parseInt(hymnNumber)
-            onChange(new Song(no));
+            if (song && !hasConsumedInitialSong.current) { 
+                 hasConsumedInitialSong.current = true; 
+            } else {
+                onChange(new Song(no)); // reset the variant and verse
+            }
         }
     }, [hymnNumber, onChange])
-
 
     return (
         <div className="navigator">
             <div style={{ display: "flex", marginTop: "16px", marginBottom: "16px", gap: "8px", minHeight: "32px" }} >
                 <button onClick={() => handleInputChangeFromButton(-1)} style={{ background: "tranparent", flexShrink: 0, marginLeft: "8px" }}>
-                    <ChevronLeft size={12} />
+                    <ChevronsLeft size={18} />
                 </button>
                 <input
                     type="number"
                     name="hymn"
                     style={{ flex: 1, minWidth: 0 }}
                     value={hymnNumber}
-                    onChange={handleInputChange}
+                    onChange={handleInputChange} 
                 />
                 <button onClick={() => handleInputChangeFromButton(1)} style={{ background: "tranparent", flexShrink: 0, marginRight: "8px" }}>
-                    <ChevronRight size={12} />
+                    <ChevronsRight size={18} />
                 </button>
             </div >
             <div key={`variant-${hymnNumber}`}>
@@ -110,15 +118,11 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, sel
 
             <div className='dialpad'>
                 <div className='botton' style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "5px" }}>
-                    <button onClick={() => handleDigitClick('1')} style={{ flex: 1, minHeight: '40px' }}>1</button>
-                    <button onClick={() => handleDigitClick('2')} style={{ flex: 1, minHeight: '40px' }}>2</button>
-                    <button onClick={() => handleDigitClick('3')} style={{ flex: 1, minHeight: '40px' }}>3</button>
-                    <button onClick={() => handleDigitClick('4')} style={{ flex: 1, minHeight: '40px' }}>4</button>
-                    <button onClick={() => handleDigitClick('5')} style={{ flex: 1, minHeight: '40px' }}>5</button>
-                    <button onClick={() => handleDigitClick('6')} style={{ flex: 1, minHeight: '40px' }}>6</button>
-                    <button onClick={() => handleDigitClick('7')} style={{ flex: 1, minHeight: '40px' }}>7</button>
-                    <button onClick={() => handleDigitClick('8')} style={{ flex: 1, minHeight: '40px' }}>8</button>
-                    <button onClick={() => handleDigitClick('9')} style={{ flex: 1, minHeight: '40px' }}>9</button>
+                    {Array.from({ length: 9 }).map((_, index) => (
+                        <button key={index + 1} onClick={() => handleDigitClick(String(index + 1))} style={{ flex: 1, minHeight: '40px' }}>
+                            {index + 1}
+                        </button>
+                    ))}
                     <button onClick={handleBackspace} style={{ flex: 1, minHeight: '40px' }}>
                         <ArrowLeft size={18} />
                     </button>

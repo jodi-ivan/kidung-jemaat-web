@@ -168,6 +168,41 @@
   padding-top: 10px ; */
 }
 
+.sidebar button {
+  background: #FAFAF7;
+  border: 1px solid #687270;
+}
+
+.sidebar button:hover {
+  background: #E3EFEC;
+  border: 1px solid #347A70;
+  color: #233D3C;
+}
+
+.sidebar button:active {
+  background: #347A70;
+  border: 1px solid #347A70;
+  color: #FAFAF7;
+}
+
+/*
+Background: #347A70
+Border:     #347A70
+Text:       #FAFAF7
+
+
+
+
+*/
+input[type="text"]:focus, input[type="number"]:focus, .global-search:focus {
+  border: 1px solid #347A70 !important;
+}
+
+input[type="text"], input[type="number"] {
+  border: 1px solid #687270;
+  background: #FAFAF7;
+  color: #273331;
+}
 .search-btn {
   padding-left: 5px;
   padding-right : 5px;
