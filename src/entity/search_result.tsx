@@ -18,6 +18,7 @@ interface AutocompleteItem {
 
 interface SearchItem extends AutocompleteItem {
   verse: Record<string, VerseData>;
+  total_verse: number;
 }
 
 interface VerseData {

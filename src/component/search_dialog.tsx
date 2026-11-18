@@ -108,8 +108,8 @@ export const SearchDialog: React.FC<DialogProps> = ({ onSelected, isOpen = false
                                                                 })
                                                             }
                                                             {
-                                                                Object.entries(i.verse).length > 3 && (
-                                                                    <li className='see-more' onClick={() => handleClick(new Song(i.hymnno, i.variant))}>{`${Object.entries(i.verse).length - 3}`}+ Lainnya</li>
+                                                                (i.total_verse > 3) && (
+                                                                    <li className='see-more' onClick={() => handleClick(new Song(i.hymnno, i.variant))}>{`${i.total_verse - 3}`}+ Lainnya</li>
                                                                 )
                                                             }
                                                         </ul>
