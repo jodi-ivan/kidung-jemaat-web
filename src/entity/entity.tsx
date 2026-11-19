@@ -6,6 +6,7 @@ class Song  {
     public verse: number;
     public focus: boolean;
     public gregorian: boolean;
+    public q :string;
 
     constructor(hymnNo: number);
     constructor(hymnNo: number, variant: string);
@@ -22,6 +23,7 @@ class Song  {
         this.verse = verse;
         this.focus = focus;
         this.gregorian = gregorian; 
+        this.q = "";
     }
 
     getURL(): string {
@@ -31,6 +33,11 @@ class Song  {
         }
         if (this.focus) {
             params.push(`focus=true`);
+        }
+
+        if (this.q) {
+            params.push(`q=${this.q}`);
+
         }
 
         const queryString = params.length > 0 ? `?${params.join('&')}` : '';

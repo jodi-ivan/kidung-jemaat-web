@@ -56,7 +56,7 @@ export const Search: React.FC<SearchProps> = ({ onSelected }) => {
                 {/* <IcnSearch size={18} style={{padding: "2px"}}/> */}
             </div >
             <div style={{ position: "relative" }}>
-                <SearchDialog data={searchResults} isOpen={open} onOpenChange={setOpen} onSelected={(s) => { if (onSelected) {onSelected(s)}; setOpen(false)}}/>
+                <SearchDialog data={searchResults} isOpen={open} onOpenChange={setOpen} onSelected={(s) => { if (onSelected) {s.q = query; onSelected(s)}; setOpen(false)}}/>
             </div >
         </>
     )

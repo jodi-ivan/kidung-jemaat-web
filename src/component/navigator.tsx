@@ -57,7 +57,8 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, sel
         });
     };
 
-    const hasConsumedInitialSong = useRef(false);
+    // const hasConsumedInitialSong = useRef(false);
+    const lastProcessedSong = useRef<Song | undefined>(undefined);
     useEffect(() => {
         if (!hymnNumber) {
             setHymnNumber("1")
@@ -65,8 +66,11 @@ export const Navigator: React.FC<NavigatorProps> = ({ onChange, all_variant, sel
         }
         if (onChange) {
             let no: number = parseInt(hymnNumber)
-            if (song && !hasConsumedInitialSong.current) { 
-                 hasConsumedInitialSong.current = true; 
+            if (song && song !== lastProcessedSong.current) { 
+                let newSong =  new Song(no, song.variant, song.verse);
+                newSong.q = song.q
+                onChange(newSong);
+                lastProcessedSong.current = song; // Remember this specific search result
             } else {
                 onChange(new Song(no)); // reset the variant and verse
             }
